@@ -59,9 +59,9 @@ io.on("connection", function(socket){
             console.log(e.message);
         }
     });
-    socket.on("disconnect", function()
+    function handleDisconnect()
     {
-        try
+         try
         {
             if (user === null) return;
             
@@ -74,7 +74,12 @@ io.on("connection", function(socket){
         {
             console.log(e.message);
         }
-    });
+    }
+    socket.on("disconnect", handleDisconnect);
+    /*socket.on("user_disconnect", function(){
+        console.log("user_disconnect!"); 
+        handleDisconnect();
+    });*/
     socket.on("user_move", function(x, z)
     {
         try

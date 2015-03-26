@@ -1,8 +1,6 @@
 //WEBSOCKETS STUFF
 window.addEventListener("load", function()
 {
-
-
     function readCookie(cookies, cookieName)
     {
         c = cookies.split(";");
@@ -35,7 +33,7 @@ window.addEventListener("load", function()
 
     socket.on("disconnect", function()
     {
-        //TODO
+        //TODO (but what, again?)
     });
 
     socket.on("server_usr_list", function(users)
@@ -79,10 +77,16 @@ window.addEventListener("load", function()
         socket.emit("user_msg", msg);
         //<audio src="btn.mp3" autoplay>
     }
+    
     function sendNewPosition(x, z)
     {
         socket.emit("user_move", x, z);
     }
+    
+    window.addEventListener("beforeunload", function () 
+    {
+        socket.disconnect();
+    });
 
     //THREE.JS STUFF
 
@@ -200,7 +204,8 @@ window.addEventListener("load", function()
         
     }
 
-    buildRoom(scene);
+    var room = new Room("");
+    room.buildRoom(scene);
 
     camera.position.set(0, 4, 30);
 
@@ -233,6 +238,7 @@ window.addEventListener("load", function()
         if (camera.position.y > 9.7)
             camera.position.y = 9.7;
         
+        room.update();
         stats.update();
         renderer.render(scene, camera);
         if (i > 0) i--;
